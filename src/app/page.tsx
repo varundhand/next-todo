@@ -1,13 +1,17 @@
 import { prisma } from "@/db"
 import Link from "next/link"
+import { TodoItem } from "@/components/TodoItem"
 
-
+const getTodos = () => {
+  return prisma.todo.findMany()
+}
 
 const Home = async () => {
   
-  const todos = await prisma.todo.findMany()
-  await prisma.todo.create({data: {title: 'test', complete: false}})
+  const todos = await getTodos();
   console.log(todos)
+
+  // await prisma.todo.create({data: {title: 'test', complete: false}})
 
   return (
     <>
@@ -17,7 +21,7 @@ const Home = async () => {
       </header>
       <ul className="pl-4">
         {todos.map(todo => (
-          <li key={todo.id}>{todo.title}</li>
+          <TodoItem key={todo.id} {...todo}/> // spread operator is alter for passing props the usual way i.e. todo={todo}
         ))}
       </ul>
     </>
