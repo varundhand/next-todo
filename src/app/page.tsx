@@ -12,6 +12,12 @@ const toggleTodo = async (id: string, complete:boolean) => {
   await prisma.todo.update({ where: {id} , data: {complete}})
 }
 
+const deleteTodo = async (id:string) => {
+  'use server'
+
+  await prisma.todo.delete({where: {id}})
+}
+
 const Home = async () => {
   
   const todos = await getTodos();
@@ -22,12 +28,12 @@ const Home = async () => {
   return (
     <>
       <header className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl">Todos</h1>
-        <Link className="border border-white-300 text-slate-200 hover:text-green-400 hover:bg-slate-700 focus-within:bg-slate-700 py-2 px-4 rounded-lg transition duration-300 ease-in-out" href='/new'>New</Link>
+        <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600">Your Tasks</h1>
+        <Link className="border border-white-300 text-slate-200 hover:text-green-400 hover:bg-slate-700 focus-within:bg-slate-700 py-2 px-4 rounded-lg transition duration-300 ease-in-out" href='/new'>New Task</Link>
       </header>
       <ul className="pl-4">
         {todos.map(todo => (
-          <TodoItem key={todo.id} {...todo} toggleTodo={toggleTodo}/> // spread operator is alter for passing props the usual way i.e. todo={todo}
+          <TodoItem key={todo.id} {...todo} toggleTodo={toggleTodo} deleteTodo={deleteTodo}/> // spread operator is alter for passing props the usual way i.e. todo={todo}
         ))}
       </ul>
     </>
