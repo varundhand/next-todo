@@ -2,29 +2,39 @@ import { prisma } from "@/db"
 import Link from "next/link"
 import { TodoItem } from "@/components/TodoItem"
 
-const getTodos = () => {
-  return prisma.todo.findMany()
+export async function getStaticProps(){
+  const todos = await prisma.todo.findMany();
+  console.log(todos);
+  
+  return {
+    props: {todos},
+    revalidate: 10,
+  };
 }
 
+
+// const getTodos = () => {
+//   return prisma.todo.findMany()
+// }
+
 const toggleTodo = async (id: string, complete:boolean) => {
-  'use server'
+  // 'use server'
 
   await prisma.todo.update({ where: {id} , data: {complete}})
 }
 
 const deleteTodo = async (id:string) => {
-  'use server'
+  // 'use server'
 
   await prisma.todo.delete({where: {id}})
 }
 
-const Home = async () => {
-  
-  const todos = await getTodos();
-  console.log(todos)
+const Home = ({todos}) => {
+  // const todos = await getTodos();
+  // console.log(todos)
 
   // await prisma.todo.create({data: {title: 'test', complete: false}})
-
+  console.log(todos)
   return (
     <>
       <header className="flex justify-between items-center mb-4">

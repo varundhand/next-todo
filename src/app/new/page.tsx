@@ -22,7 +22,7 @@ const page = () => {
   return (
     <>
       <header className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl">New</h1>
+        <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600">New Task</h1>
       </header>
 
       {/* when the form is submitted, createTodo is called on server */}
